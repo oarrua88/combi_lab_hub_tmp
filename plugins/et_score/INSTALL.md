@@ -20,8 +20,17 @@ Files in this folder:
 | `reference/1a30_features.csv` | The authors' feature vector for 1a30, used by the test |
 | `prepare_casf.py` | Copies CASF-2016 complexes into the layout ET-Score expects |
 | `patch_glob.py` | Linux path fix, used only by the Dockerfile |
+| `demo_et_score.bat` | One-click Windows demo: runs steps A2–A5 and shows the 1a30 result |
 
 > **Why exact versions matter:** Eaves *et al.* (2026, *J. Chem. Inf. Model.*) obtained PCC 0.385 and divide-by-zero errors when they used newer packages. Keep Python 3.7 and scikit-learn 0.22.2, because the model was pickled with that version.
+
+---
+
+## Quick demo (Windows, one click)
+
+Double-click `demo_et_score.bat` in this folder. It activates Miniconda, creates the `et-score` environment if it does not exist, unzips the ET-Score code from `Funciones_Score_Tabla1\ET-Score.zip`, downloads `et_score.sav` from Figshare, prints its MD5 and runs `test_1a30.py`. The window stays open at the end so you can read the result (`RESULT: PASS`).
+
+The default paths match our lab computer. On another computer, set `SF`, `CASF`, `ZIP` or `CONDA` in the Anaconda Prompt before running the script from there. The steps below explain what the demo does, one by one.
 
 ---
 
