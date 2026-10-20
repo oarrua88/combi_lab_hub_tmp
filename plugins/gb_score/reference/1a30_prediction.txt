@@ -1,0 +1,1 @@
+5.6171  GB-Score pKd for CASF-2016 1a30 computed with predict_gb_score.py (gb_score.joblib, environment.yml). With the authors' published features (reference/1a30_features_authors.csv) the model gives 5.6570. Experimental: 4.30.
