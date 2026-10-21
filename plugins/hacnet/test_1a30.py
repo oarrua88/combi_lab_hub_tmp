@@ -75,7 +75,7 @@ def main():
     except Exception as e:                              # noqa: BLE001
         print("\n[2] ERROR: %s" % e)
         if a.charges == "acc2":
-            print("    The ACC2 web service (https://acc2.ncbr.muni.cz) could not be reached or failed.")
+            print("    The Atomic Charge Calculator web API (https://acc.biodata.ceitec.cz) could not be reached or failed.")
             print("    Check the internet connection, or use --charges chargefw2 (Docker image, INSTALL.md section B).")
         print("\nRESULT: FAIL")
         return 1

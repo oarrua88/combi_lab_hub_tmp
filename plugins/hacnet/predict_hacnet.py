@@ -13,8 +13,9 @@ source code when it is loaded:
   1. '/content/' (Google Colab) paths -> a temporary folder per complex;
   2. the pocket charges: the package posts the pocket to the ACC2 web service at
      http://78.128.250.156, which no longer answers. --charges chooses:
-       acc2       the current ACC2 API (https://acc2.ncbr.muni.cz), EqEq method, same
-                  settings as the Eaves et al. fork (default; needs internet)
+       acc2       the Atomic Charge Calculator web API (https://acc.biodata.ceitec.cz,
+                  successor of ACC2), EqEq method, same settings as the Eaves et al.
+                  fork (default; needs internet)
        chargefw2  EqEq computed locally with ChargeFW2, the program that ACC2 runs,
                   with the same settings (offline; used by the Docker image)
   3. it returns the full-precision pKd instead of round(pKd, 3);
@@ -52,46 +53,82 @@ import zipfile
 
 warnings.filterwarnings("ignore")
 
-ACC2 = "https://acc2.ncbr.muni.cz/api/v1"
+# Atomic Charge Calculator III public API (the ACC2 service moved here in 2026; the old
+# ACC2 address https://acc2.ncbr.muni.cz/api/v1 now answers 405). Override with $ACC_API.
+ACC2 = os.environ.get("ACC_API", "https://acc.biodata.ceitec.cz/api/v1")
 _MOD = None
 
 
+def _mol2_with_charges(pocket_mol2, charges, out_mol2):
+    """Copy pocket_mol2 replacing the charge column of every atom (same atom order)."""
+    lines = open(pocket_mol2).read().splitlines()
+    out, inside, k = [], False, 0
+    for ln in lines:
+        s = ln.strip()
+        if s.startswith("@<TRIPOS>"):
+            inside = s == "@<TRIPOS>ATOM"
+            out.append(ln)
+            continue
+        if inside and s:
+            p = s.split()
+            if k >= len(charges):
+                raise RuntimeError("ACC returned %d charges for more atoms" % len(charges))
+            p = p[:8] + ["%.4f" % charges[k]] if len(p) >= 9 else p + ["%.4f" % charges[k]]
+            out.append("%7s %-8s %10s %10s %10s %-8s %4s %-8s %10s" % tuple(p[:9]))
+            k += 1
+        else:
+            out.append(ln)
+    if k != len(charges):
+        raise RuntimeError("ACC returned %d charges for %d atoms" % (len(charges), k))
+    with open(out_mol2, "w") as f:
+        f.write("\n".join(out) + "\n")
+
+
 def charges_acc2(pocket_mol2, out_mol2):
-    """EqEq charges from the ACC2 web service (code of the Eaves et al. fork, HACNet_CLI.py)."""
+    """EqEq charges from the Atomic Charge Calculator web service (ChargeFW2 behind it).
+
+    Same settings as the Eaves et al. fork: read HETATM, ignore water, permissive types.
+    Workflow of the current API: POST /files/upload -> POST /charges/calculate ->
+    GET /files/download/computation/<id> (zip with the charged .mol2). If the zip has no
+    .mol2, the charges returned by /charges/calculate are written into the pocket .mol2.
+    """
     import requests
     with open(pocket_mol2, "rb") as fh:
         up = requests.post(ACC2 + "/files/upload",
-                           files={"files": (os.path.basename(pocket_mol2), fh, "chemical/mol2")}, timeout=120)
+                           files={"files": (os.path.basename(pocket_mol2), fh, "chemical/x-mol2")}, timeout=120)
     if up.status_code >= 400:
-        raise RuntimeError("ACC2 upload %d: %s" % (up.status_code, up.text[:300]))
+        raise RuntimeError("ACC upload %d: %s" % (up.status_code, up.text[:300]))
     hashes = [d.get("fileHash") for d in up.json()["data"] if isinstance(d, dict)]
     if not hashes:
-        raise RuntimeError("ACC2 upload returned no fileHash")
-    st = requests.post(ACC2 + "/charges/setup", timeout=120,
-                       json={"fileHashes": hashes,
-                             "settings": {"readHetatm": True, "ignoreWater": True, "permissiveTypes": True}})
-    if st.status_code >= 400:
-        raise RuntimeError("ACC2 setup %d: %s" % (st.status_code, st.text[:300]))
-    comp = st.json().get("data")
-    if not comp:
-        raise RuntimeError("ACC2 setup did not return a computation id")
-    calc = requests.post(ACC2 + "/charges/calculate?response_format=none", timeout=300,
-                         json={"fileHashes": [], "configs": [{"method": "eqeq", "parameters": ""}],
-                               "computation_id": comp})
+        raise RuntimeError("ACC upload returned no fileHash")
+    calc = requests.post(ACC2 + "/charges/calculate", timeout=600,
+                         json={"configs": [{"method": "eqeq", "parameters": None}], "fileHashes": hashes,
+                               "settings": {"readHetatm": True, "ignoreWater": True, "permissiveTypes": True}})
     if calc.status_code >= 400:
-        raise RuntimeError("ACC2 calculate %d: %s" % (calc.status_code, calc.text[:300]))
-    for _ in range(300):
-        dl = requests.get(ACC2 + "/files/download/computation/" + comp, timeout=120)
-        if dl.status_code == 200 and dl.headers.get("Content-Type", "").startswith("application/zip") and dl.content:
-            with zipfile.ZipFile(io.BytesIO(dl.content)) as zf:
-                names = [n for n in zf.namelist() if n.lower().endswith(".mol2")]
-                if not names:
-                    raise RuntimeError("ACC2 result has no .mol2")
-                with open(out_mol2, "wb") as fo:
-                    fo.write(zf.read(names[0]))
-            return
-        time.sleep(1.0)
-    raise RuntimeError("ACC2 result not ready after 300 s")
+        raise RuntimeError("ACC calculate %d: %s" % (calc.status_code, calc.text[:300]))
+    data = calc.json().get("data") or {}
+    comp = data.get("computationId")
+    charges = None
+    for res in data.get("results", []):
+        for c in res.get("calculations", []):
+            mols = list((c.get("charges") or {}).values())
+            if mols:
+                charges = mols[0]
+    if comp:
+        for _ in range(60):
+            dl = requests.get(ACC2 + "/files/download/computation/" + comp, timeout=120)
+            if dl.status_code == 200 and dl.content[:2] == b"PK":
+                with zipfile.ZipFile(io.BytesIO(dl.content)) as zf:
+                    names = [n for n in zf.namelist() if n.lower().endswith(".mol2")]
+                    if names:
+                        with open(out_mol2, "wb") as fo:
+                            fo.write(zf.read(names[0]))
+                        return
+                break
+            time.sleep(1.0)
+    if charges is None:
+        raise RuntimeError("ACC returned no charges: %s" % calc.text[:300])
+    _mol2_with_charges(pocket_mol2, charges, out_mol2)
 
 
 def charges_chargefw2(pocket_mol2, out_mol2):
