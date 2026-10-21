@@ -12,7 +12,7 @@ for %%i in ("%TOOLS%\..") do set "REPO=%%~fi"
 if not defined LOGDIR set "LOGDIR=C:\Users\Admin\Desktop\PROYECTO_UNIVERSIDAD\resultados_docker"
 if not exist "%LOGDIR%" mkdir "%LOGDIR%"
 set "LIST=%*"
-if "%LIST%"=="" set "LIST=et_score gb_score onionnet2 sfcnn planet eggnn gign ehign_pla sacnn deattentiondta igmodel conbap hacnet delta_linf9_xgb deepbindgcn graphscoredta"
+if "%LIST%"=="" set "LIST=et_score gb_score onionnet2 sfcnn planet eggnn gign ehign_pla sacnn deattentiondta rfl_score igmodel conbap hacnet delta_linf9_xgb deepbindgcn graphscoredta"
 set NOPAUSE=1
 docker version >nul 2>&1
 if errorlevel 1 ( echo ERROR: Docker no responde. Abri Docker Desktop. & goto fin )

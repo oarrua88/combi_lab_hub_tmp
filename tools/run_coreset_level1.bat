@@ -8,9 +8,10 @@ echo   con las 10 scoring functions del Nivel 1 + calculo del PCC
 echo ============================================================
 echo.
 rem Uso:
-rem   run_coreset_level1.bat                  corre las 10 SF
+rem   run_coreset_level1.bat                  corre las 11 SF
 rem   run_coreset_level1.bat gb sfcnn planet  corre solo esas
-rem   Nombres: et gb onionnet2 sfcnn planet eggnn gign ehign_pla sacnn deattentiondta
+rem   Nombres: et gb onionnet2 sfcnn planet eggnn gign ehign_pla sacnn deattentiondta rfl
+rem   rfl (RFL-Score) corre con Docker (imagen combilab/rfl_score:1.0, ver plugins\rfl_score\INSTALL.md) e internet (FASTA de RCSB).
 rem Si una SF ya tiene results_<sf>\predictions.csv completo, se salta.
 rem Para repetirla, borra esa carpeta o pon FORCE=1 antes de ejecutar.
 rem Cada SF deja su log en results_<sf>\log.txt.
@@ -25,7 +26,7 @@ if not defined CONDA set "CONDA=%USERPROFILE%\miniconda3"
 set "CORE=%CASF%\coreset"
 
 if "%~1"=="" (
-  for %%s in (et gb onionnet2 sfcnn planet eggnn gign ehign_pla sacnn deattentiondta) do set "RUN_%%s=1"
+  for %%s in (et gb onionnet2 sfcnn planet eggnn gign ehign_pla sacnn deattentiondta rfl) do set "RUN_%%s=1"
 ) else (
   for %%s in (%*) do set "RUN_%%s=1"
 )
@@ -124,6 +125,19 @@ if defined RUN_deattentiondta (
   call :end deattentiondta
 )
 :next_dea
+
+rem ---------------------------------------------------------------- RFL-Score (Docker)
+if defined RUN_rfl (
+  call :begin rfl rfl_score rfl_score || goto next_rfl
+  docker image inspect combilab/rfl_score:1.0 >nul 2>&1
+  if errorlevel 1 (
+    echo   [rfl] falta la imagen Docker combilab/rfl_score:1.0: corre plugins\rfl_score\docker_rfl_score.bat primero
+  ) else (
+    docker run --rm -v "%CORE%:/coreset:ro" -v "%OUT%:/data" combilab/rfl_score:1.0 python -W ignore /opt/rfl_score/predict_rfl_score.py --rfl-dir /opt/rfl-score_v1 -d /coreset -o /data/predictions.csv >> "!LOG!" 2>&1
+  )
+  call :end rfl
+)
+:next_rfl
 
 rem ---------------------------------------------------------------- PCC
 echo.

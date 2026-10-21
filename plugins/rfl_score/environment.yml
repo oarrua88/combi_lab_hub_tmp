@@ -1,0 +1,13 @@
+name: rfl_score
+# RFL-Score - light environment (Windows / Linux / macOS): R + randomForest to run the
+# authors' trained model on a 160-features table, and Python to drive it.
+# The full feature pipeline (Open Babel 2.4, PaDEL, DSSP, MGLTools, vina4dv) is Linux only:
+# use the Docker image (Dockerfile, environment_pipeline.yml).
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - python=3.10
+  - pandas=2.2.3
+  - r-base=4.3.3
+  - r-randomforest=4.7_1.2

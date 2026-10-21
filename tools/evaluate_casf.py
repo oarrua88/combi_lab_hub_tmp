@@ -39,6 +39,7 @@ SFS = [
     ("EHIGN-PLA",      "results_ehign_pla",      0.854, 0.851),
     ("saCNN",          "results_sacnn",          0.865, 0.862),
     ("DEAttentionDTA", "results_deattentiondta", 0.845, 0.819),
+    ("RFL-Score",      "results_rfl",            None,  None),   # combi-lab; set the paper PCC here
 ]
 
 
@@ -126,7 +127,7 @@ def main():
         if len(d) >= 3:
             r, ci, sd, rho, rmse = metrics(d["pKd_pred"].values, d["pKd_exp"].values)
             row.update(PCC=round(r, 3), PCC_CI90="%.3f-%.3f" % ci, SD=round(sd, 2),
-                       Spearman=round(rho, 3), RMSE=round(rmse, 2), diff_vs_paper=round(r - paper, 3))
+                       Spearman=round(rho, 3), RMSE=round(rmse, 2), diff_vs_paper=round(r - paper, 3) if paper is not None else None)
             row["status"] = "OK" if len(d) == len(exp) else "incompleto (%d/%d)" % (len(d), len(exp))
         rows.append(row)
 

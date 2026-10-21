@@ -1,0 +1,24 @@
+name: rfl
+# RFL-Score - full pipeline (Linux; used by the Docker image). The versions are those of the
+# authors' code (Python 3.7, Open Babel 2.4.1 'babel', RDKit 2020.09); with them the 160
+# features of the authors' example 1a30 are reproduced exactly.
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - python=3.7
+  - openbabel=2.4.1
+  - rdkit=2020.09.1
+  - pandas=1.1.5
+  - numpy=1.21
+  - scipy
+  - six
+  - joblib
+  - biopython=1.78
+  - scikit-learn=0.23.2
+  - openjdk=11
+  - r-base=4.0.3
+  - r-randomforest=4.6_14
+  - pip
+  - pip:
+      - oddt==0.7
