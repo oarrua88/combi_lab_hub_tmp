@@ -1,0 +1,25 @@
+name: igmodel
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - python=3.10
+  - openbabel=3.1.1
+  - rdkit=2025.09.5
+  - spyrmsd=0.9.0
+  - numpy=1.26.4
+  - pandas=2.2.3
+  - scipy=1.15.2
+  - pip
+  - pip:
+      # Same torch/DGL pair as the egGNN plugin. On Windows the PyPI builds are CPU-only.
+      # dgl 2.2.1 on PyPI exists only for Windows; on Linux use the Dockerfile (conda-forge dgl).
+      - torch==2.2.2
+      - dgl==2.2.1
+      - torchdata==0.7.1
+      - networkx==3.4.2
+      - pydantic==2.12.5
+      - pyyaml==6.0.3
+      - psutil==7.0.0
+      - tqdm==4.67.1
+      - requests==2.32.5
