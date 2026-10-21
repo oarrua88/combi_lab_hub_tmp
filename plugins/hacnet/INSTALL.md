@@ -155,6 +155,7 @@ docker run --rm -v "C:\Users\Admin\Desktop\SOFTWARE SF\CASF-2016\CASF-2016\cores
 | `Missing key(s) in state_dict: "se_block1.2.weight" …` | The repository's `CNN.py` was used (note 2). Use `predict_hacnet.py`. |
 | `got an unexpected keyword argument 'aggregation'` | The package was run directly with PyG ≥ 2.3 (note 4). Use `predict_hacnet.py`. |
 | `IndexError: list index out of range` in `data_parallel.py` | PyG `DataParallel` without a GPU (note 4). Use `predict_hacnet.py`. |
+| Windows dialog *python.exe – No se encuentra el punto de entrada del procedimiento libintl_dgettext* (…`fontconfig-1.dll`) | `libglib` came from the Anaconda `defaults` channel and overwrote `intl-8.dll`. Run `fix_env_hacnet.bat` (installs glib 2.86.4 from conda-forge and restores libintl), or recreate the environment with the current `environment.yml`. |
 | `ACC2 ...` errors, `ConnectionError` | No internet, or the ACC2 service is down. Retry later, or use Docker with `--charges chargefw2`. |
 | `chargefw2 not found` | `--charges chargefw2` outside Docker: set `CHARGEFW2` to the executable, or use `--charges acc2`. |
 
