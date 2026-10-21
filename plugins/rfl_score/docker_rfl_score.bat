@@ -5,12 +5,12 @@ echo ============================================================
 echo   CombiLabHUB - RFL-Score con Docker (test con el complejo 1a30)
 echo ============================================================
 echo.
-rem Construye la imagen combilab/rfl_score:1.0 (solo la primera vez) y corre el test dentro del contenedor.
+rem Construye la imagen combilab/rfl_score:1.1 (solo la primera vez) y corre el test dentro del contenedor.
 rem Para reconstruir la imagen: set REBUILD=1 antes de ejecutar.
 set "PLUGIN=%~dp0"
 if "%PLUGIN:~-1%"=="\" set "PLUGIN=%PLUGIN:~0,-1%"
 if not defined CASF set "CASF=C:\Users\Admin\Desktop\SOFTWARE SF\CASF-2016\CASF-2016"
-set "IMAGE=combilab/rfl_score:1.0"
+set "IMAGE=combilab/rfl_score:1.1"
 
 echo [Paso 1/3] Verificando Docker...
 docker version >nul 2>&1

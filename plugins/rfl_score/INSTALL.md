@@ -7,7 +7,7 @@
 | Authors | O. Arrua, J. Aderhold, A. V. Werhli, K. S. Machado — IEEE CIBCB 2024 |
 | Code | <https://github.com/combilab-furg/rfl-score_v1>, pinned commit `2020d9039436b7c48891753a3d7aa5a97a239246` |
 | Trained model | `scoring/RScript/model/scoring_function_160.rda` in the repository, MD5 `d1ad344ed3f167e2e053e97dd1f9890e` |
-| Vina terms | vina4dv <https://github.com/chengwang88/vina4dv>, commit `d8e4cd1b350200bf0e622721fd41102a4dbb5f5a` (static Linux binary `build/linux/release/vina`, MD5 `6d78ba24f4b507a6edb29888f41e0d61`) |
+| Vina terms | vina4dv <https://github.com/chengwang88/vina4dv>, commit `d8e4cd1b350200bf0e622721fd41102a4dbb5f5a`, compiled from source in the Docker image (see note 6) |
 | Hardware | CPU; about 10 s per complex for the full pipeline |
 | Reported CASF-2016 PCC | to be filled in from the paper (sheet *Estado SF*) |
 
@@ -34,6 +34,7 @@ Files in this folder:
 > 3. **Protein sequence (FASTA).** The amino-acid composition comes from the FASTA of the PDB entry, downloaded from RCSB (`https://www.rcsb.org/fasta/entry/<CODE>`), as the authors did. It includes chains that are not in the CASF protein file (in 1a30, the peptide inhibitor `EDL`). `predict_rfl_score.py` uses a `*.fasta*` file in the complex folder if there is one, otherwise it downloads it (**internet needed**); `--fasta-from pdb` builds it from the protein file instead, which changes the result (1a30: 4.4739 instead of 4.4494).
 > 4. **Reference values for 1a30:** 4.4494 with `examples/1a30/1a30_160_input.csv` (and with our features, identical); 4.5071 with the row of 1a30 in `examples/all_160_input.csv`, computed by the authors with another version of the RDKit 3D descriptors. Experimental pKd 4.30. R prints 2 decimals (4.45); here 4 are written.
 > 5. `RFL-Score.zip` in `Funciones_Score_Tabla1` is an older snapshot (July 2022, before the DSSP 4.0.4 fix). Its model and 1a30 example are identical (same MD5), so it is fine for the Windows test; the Docker image uses the pinned commit.
+> 6. **vina4dv is compiled from source.** The prebuilt static binary in the repository (`build/linux/release/vina`, MD5 `6d78ba24f4b507a6edb29888f41e0d61`, Intel compiler, 2016) crashes with *Segmentation fault* on kernels without `vsyscall` — among them the WSL 2 kernel of Docker Desktop — and then the Vina features are empty (`list index out of range`). The image compiles the same source with g++ 12 + Boost 1.82 (two Boost-API lines of `main.cpp` updated); its output for 1a30 is identical to the prebuilt binary's.
 
 ---
 
@@ -86,13 +87,13 @@ python "%PLUGIN%\predict_rfl_score.py" --rfl-dir "%SF%\rfl-score_v1" --features 
 
 ```bat
 cd /d "%PLUGIN%"
-docker build -t combilab/rfl_score:1.0 .
+docker build -t combilab/rfl_score:1.1 .
 ```
 
 ### B2. Run the installation test
 
 ```bat
-docker run --rm -v "C:\Users\Admin\Desktop\SOFTWARE SF\CASF-2016\CASF-2016\coreset\1a30:/complex:ro" combilab/rfl_score:1.0 python -W ignore /opt/rfl_score/test_1a30.py --rfl-dir /opt/rfl-score_v1 --complex /complex --full
+docker run --rm -v "C:\Users\Admin\Desktop\SOFTWARE SF\CASF-2016\CASF-2016\coreset\1a30:/complex:ro" combilab/rfl_score:1.1 python -W ignore /opt/rfl_score/test_1a30.py --rfl-dir /opt/rfl-score_v1 --complex /complex --full
 ```
 
 Expected output (end):
@@ -110,7 +111,7 @@ RESULT: PASS
 ### B3. Score the CASF-2016 core set (internet needed for the FASTA files)
 
 ```bat
-docker run --rm -v "C:\Users\Admin\Desktop\SOFTWARE SF\CASF-2016\CASF-2016\coreset:/coreset:ro" -v "C:\Users\Admin\Desktop\PROYECTO_UNIVERSIDAD\sf\results_rfl:/data" combilab/rfl_score:1.0 python -W ignore /opt/rfl_score/predict_rfl_score.py --rfl-dir /opt/rfl-score_v1 -d /coreset -o /data/predictions.csv
+docker run --rm -v "C:\Users\Admin\Desktop\SOFTWARE SF\CASF-2016\CASF-2016\coreset:/coreset:ro" -v "C:\Users\Admin\Desktop\PROYECTO_UNIVERSIDAD\sf\results_rfl:/data" combilab/rfl_score:1.1 python -W ignore /opt/rfl_score/predict_rfl_score.py --rfl-dir /opt/rfl-score_v1 -d /coreset -o /data/predictions.csv
 ```
 
 Output: `predictions.csv` (`pdbid, pKd_predicted, fasta_source`) and `predictions_features160.csv` (the 160 features of every complex). `tools\run_coreset_level1.bat` runs this step as SF `rfl`.
@@ -125,16 +126,17 @@ Output: `predictions.csv` (`pdbid, pKd_predicted, fasta_source`) and `prediction
 | `there is no package called 'randomForest'` | The environment was created without `r-randomforest`; recreate it from `environment.yml`. |
 | `dssp: unrecognized option '-i'` | DSSP ≥ 4.2 called directly (by `sf160.py`). Use `predict_rfl_score.py`, which adds the wrapper. |
 | `prepare_ligand4.py: ligand filename ... doesn't exist` | The authors' `Vina58.prepare_ligand` run outside the ligand's folder; use `predict_rfl_score.py`. |
+| `[2] ERROR: list index out of range` right after `sasa10` | vina4dv crashed and wrote no Vina terms (note 6). Use the current Dockerfile (image `combilab/rfl_score:1.1`). |
 | `URLError` / `RCSB returned no FASTA` | No internet inside the container; put `<code>.fasta.txt` in each complex folder, or use `--fasta-from pdb`. |
 
 ## Uninstall
 
 ```bat
 conda env remove -n rfl_score
-docker image rm combilab/rfl_score:1.0
+docker image rm combilab/rfl_score:1.1
 rmdir /s /q "%SF%\rfl-score_v1"
 ```
 
 ---
 
-*Prepared for CombiLabHUB (combi-lab). Tested on 21/10/2026 on Linux: check [1] with R 4.0.3 / randomForest 4.6-14 and with R 4.3.3 / randomForest 4.7-1.2 (same 4.4494); check [2] with the `environment_pipeline.yml` versions, MGLTools 1.5.7, vina4dv `d8e4cd1` and DSSP 4.2.2 (through the wrapper): 0 of 160 features differ. The Docker image (DSSP 4.0.4 from Debian) and the Windows demo still have to be run on the lab computer.*
+*Prepared for CombiLabHUB (combi-lab). Tested on 21/10/2026 on Linux: check [1] with R 4.0.3 / randomForest 4.6-14 and with R 4.3.3 / randomForest 4.7-1.2 (same 4.4494); check [2] with the `environment_pipeline.yml` versions, MGLTools 1.5.7, vina4dv `d8e4cd1` (prebuilt and g++-compiled, same output) and DSSP 4.2.2 (through the wrapper): 0 of 160 features differ. On the lab computer (Docker Desktop + WSL 2), image 1.0 failed in vina4dv (note 6); fixed in 1.1.*

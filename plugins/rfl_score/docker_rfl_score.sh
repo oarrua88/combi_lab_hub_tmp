@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
-# CombiLabHUB - RFL-Score with Docker (Linux): builds the image combilab/rfl_score:1.0 (first time only)
+# CombiLabHUB - RFL-Score with Docker (Linux): builds the image combilab/rfl_score:1.1 (first time only)
 # and runs the installation test with CASF-2016 complex 1a30.
 #   CASF=/path/to/CASF-2016 ./docker_rfl_score.sh        (REBUILD=1 to rebuild the image)
 set -u
 PLUGIN="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CASF="${CASF:-$HOME/CASF-2016/CASF-2016}"
-IMAGE="combilab/rfl_score:1.0"
+IMAGE="combilab/rfl_score:1.1"
 echo "============================================================"
 echo "  CombiLabHUB - RFL-Score with Docker (test with complex 1a30)"
 echo "============================================================"
