@@ -27,10 +27,13 @@ plugins/<sf>/
     Dockerfile          same environment as a container (upstream commit and model MD5 pinned)
     predict_<sf>.py     scores a folder of complexes (one sub-folder per complex)
     test_1a30.py        checks the installation against the authors' value for 1a30
-    demo_<sf>.bat       one-click Windows demo: creates the environment and runs the test
+    demo_<sf>.bat       one-click Windows demo (conda): creates the environment and runs the test
+    docker_<sf>.bat     Windows + Docker Desktop: builds the image (first time) and runs the test
+    docker_<sf>.sh      Linux + Docker: same as docker_<sf>.bat
 tools/
     run_coreset_level1.bat   scores the CASF-2016 core set with every Level 1 SF
     evaluate_casf.py         PCC, SD, Spearman and RMSE against CoreSet.dat
+    docker_test_all.bat/.sh  builds and tests every plugin's Docker image, one by one, with a summary
 docs/
     CombiLabHUB_etapas.xlsx  project stages and status of every SF
 ```
