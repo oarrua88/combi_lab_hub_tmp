@@ -13,7 +13,7 @@ prediction script and a one-complex test (1a30). All plugins write the same outp
 | Level | Scoring functions | Status |
 |---|---|---|
 | 1 – CPU, trained model available | ET-Score, GB-Score, OnionNet-2, SFCNN, PLANET, egGNN, GIGN, EHIGN-PLA, saCNN, DEAttentionDTA | 10/10 installed, 1a30 test passes |
-| 2 – extra steps | DeepBindGCN, HAC-Net, delta_LinF9_XGB, GraphscoreDTA, IGModel, ConBAP, CPIScore | pending |
+| 2 – extra steps | IGModel, ConBAP, HAC-Net, delta_LinF9_XGB (Linux/Docker), DeepBindGCN, GraphscoreDTA | installed; 1a30 test passes (GraphscoreDTA: only the authors' 279 pre-built complexes, 1a30 not available). CPIScore discarded (incomplete model) |
 | 3 – heavy (GPU, licences, large databases) | PointNet, PIGNet2, Dynaformer, TopoFormer, BAPA, CGraphDTA, EGNA, HydraScreen, RFL-Score, P3-Score | pending |
 
 The detailed plan and progress are in `docs/CombiLabHUB_etapas.xlsx`.
