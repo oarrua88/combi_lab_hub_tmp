@@ -1,0 +1,9 @@
+name: mgltools
+# MGLTools 1.5.7 (Python 2.7) for prepare_receptor4.py. Separate environment because it
+# needs Python 2. Linux only.
+channels:
+  - conda-forge
+  - bioconda
+  - nodefaults
+dependencies:
+  - mgltools=1.5.7
