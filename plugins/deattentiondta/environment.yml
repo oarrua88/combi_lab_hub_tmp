@@ -1,0 +1,14 @@
+name: deattentiondta
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - python=3.10
+  - openbabel=3.1.1      # SMILES from .mol2, as the authors' pre-code/sdf_to_smi.py
+  - numpy=1.26.4
+  - pandas=2.2.3
+  - pip
+  - pip:
+      # On Windows the PyPI build of torch is CPU-only. On Linux it pulls CUDA
+      # libraries (large); the Dockerfile installs the conda-forge CPU build instead.
+      - torch==2.2.2

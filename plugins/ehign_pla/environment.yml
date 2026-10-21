@@ -1,0 +1,29 @@
+name: gign
+# Shared by the GIGN and EHIGN-PLA plugins (same preprocessing: PyMOL + Open Babel + RDKit).
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - python=3.10
+  - pip
+  - numpy=1.26.4
+  - pandas=2.2.3
+  - scipy=1.15.2
+  - scikit-learn=1.5.2
+  - networkx=3.4.2
+  - rdkit=2025.03.6
+  - pymol-open-source=3.1.0   # pocket extraction (authors' preprocessing)
+  - openbabel=3.1.1           # ligand .mol2 -> .pdb ("obabel -d")
+  - tqdm
+  - pip:
+      # On Windows the PyPI builds of torch and dgl are CPU-only. dgl 2.2.1 on PyPI
+      # exists only for Windows; on Linux use the Dockerfile (conda-forge dgl).
+      # dgl 2.2.1 needs a torch it ships a graphbolt library for (2.1.x-2.3.0)
+      # and torchdata < 0.10.
+      - torch==2.2.2
+      - torch_geometric==2.5.3   # GIGN
+      - dgl==2.2.1               # EHIGN-PLA
+      - torchdata==0.7.1
+      - pydantic==2.12.5
+      - pyyaml==6.0.3
+      - psutil==7.0.0
