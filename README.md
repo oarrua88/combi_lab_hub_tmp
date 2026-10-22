@@ -14,7 +14,7 @@ prediction script and a one-complex test (1a30). All plugins write the same outp
 |---|---|---|
 | 1 – CPU, trained model available | ET-Score, GB-Score, OnionNet-2, SFCNN, PLANET, egGNN, GIGN, EHIGN-PLA, saCNN, DEAttentionDTA, RFL-Score (combi-lab; features via Docker) | 11/11 installed, 1a30 test passes |
 | 2 – extra steps | IGModel, ConBAP, HAC-Net, delta_LinF9_XGB (Linux/Docker), DeepBindGCN, GraphscoreDTA | installed; 1a30 test passes (GraphscoreDTA: only the authors' 279 pre-built complexes, 1a30 not available). CPIScore discarded (incomplete model) |
-| 3 – heavy (GPU, licences, large databases) | PIGNet2 and PointNet/PointTransformer (both run on CPU; PointNet makes its point clouds only on Linux/Docker); Dynaformer, TopoFormer, BAPA, CGraphDTA, EGNA, HydraScreen, P3-Score | PIGNet2 and PointNet: 1a30 test passes. HydraScreen: local inference needs private Ro5 packages, only the API is left. The rest pending |
+| 3 – heavy (GPU, licences, large databases) | PIGNet2, PointNet/PointTransformer and BAPA (all run on CPU; PointNet makes its point clouds only on Linux/Docker); Dynaformer, TopoFormer, CGraphDTA, EGNA, HydraScreen, P3-Score | PIGNet2, PointNet and BAPA: 1a30 test passes. HydraScreen: local inference needs private Ro5 packages, only the API is left. The rest pending |
 
 The detailed plan and progress are in `docs/CombiLabHUB_etapas.xlsx`.
 

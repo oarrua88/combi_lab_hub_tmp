@@ -1,0 +1,18 @@
+name: bapa
+# BAPA (Seo et al., BMC Bioinformatics 2021), inference only, CPU.
+# Python 3.6 + TensorFlow 1.12 as the authors. Open Babel must be 2.4.1: Open Babel 3
+# writes the receptor .pdbqt atoms in another order and changes the hydrophobic Vina term.
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - python=3.6
+  - pip
+  - openbabel=2.4.1
+  - numpy=1.19.5
+  - scipy=1.5.3
+  - scikit-learn=0.22.2
+  - pandas=1.1.5
+  - pip:
+      - tensorflow==1.12.0
+      - protobuf==3.19.6
