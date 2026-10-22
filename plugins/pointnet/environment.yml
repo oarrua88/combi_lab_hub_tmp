@@ -1,0 +1,17 @@
+name: pointnet
+# PointNet / PointTransformer (Wang et al., Brief. Bioinform. 2022), inference only, CPU.
+# On Windows this environment runs the trained models on point clouds that are
+# already made (the authors' POINTNET program that makes the clouds is Linux-only:
+# use the Docker image for that step).
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - python=3.10
+  - pip
+  - numpy=1.26.4
+  - pandas=2.2.3
+  - openbabel=3.1.1   # hydrogens for POINTNET (Linux)
+  - pip:
+      # On Windows the PyPI build of torch is CPU-only.
+      - torch==2.2.2
