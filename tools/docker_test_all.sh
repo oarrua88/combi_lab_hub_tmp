@@ -5,7 +5,7 @@
 REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 LOGDIR="${LOGDIR:-$REPO/../resultados_docker}"
 mkdir -p "$LOGDIR"
-LIST=("$@"); [ ${#LIST[@]} -eq 0 ] && LIST=(et_score gb_score onionnet2 sfcnn planet eggnn gign ehign_pla sacnn deattentiondta rfl_score igmodel conbap hacnet delta_linf9_xgb deepbindgcn graphscoredta)
+LIST=("$@"); [ ${#LIST[@]} -eq 0 ] && LIST=(et_score gb_score onionnet2 sfcnn planet eggnn gign ehign_pla sacnn deattentiondta rfl_score igmodel conbap hacnet delta_linf9_xgb deepbindgcn graphscoredta pointnet pignet2 bapa deeprli mmpd_dta dtitr t_alpha)
 echo "Summary $(date)" > "$LOGDIR/summary.txt"
 for s in "${LIST[@]}"; do
   echo "===== $s ($(date +%T)) ====="
