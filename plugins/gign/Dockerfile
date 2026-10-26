@@ -7,7 +7,7 @@ FROM mambaorg/micromamba:1.5.10
 
 USER root
 RUN apt-get update \
- && apt-get install -y --no-install-recommends git ca-certificates \
+ && apt-get install -y --no-install-recommends git ca-certificates libcurl4 \
  && rm -rf /var/lib/apt/lists/*
 USER $MAMBA_USER
 
