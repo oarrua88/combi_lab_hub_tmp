@@ -7,6 +7,8 @@ dependencies:
   - numpy=1.26.4
   # mdtraj (needed by moleculekit) has no Windows wheel on PyPI: take it from conda-forge
   - mdtraj=1.10.3
+  # Open Babel: moleculekit's atom typer calls it (obabel_cli.py imports openbabel.pybel)
+  - openbabel=3.1.1
   - pip
   - pip:
       # On Windows the PyPI build of torch is CPU-only.

@@ -14,7 +14,7 @@ USER $MAMBA_USER
 #     moleculekit 1.11.5 from PyPI. HTMD is not needed.
 RUN micromamba create -y -n sacnn -c conda-forge \
       python=3.10 numpy=1.26.4 scipy=1.15.2 pandas=2.2.3 networkx=3.4.2 rdkit=2024.03.5 \
-      pdb2pqr=3.6.1 propka=3.5.1 mdtraj=1.10.3 h5py "pytorch=2.5.1=cpu*" pip \
+      pdb2pqr=3.6.1 propka=3.5.1 mdtraj=1.10.3 openbabel=3.1.1 h5py "pytorch=2.5.1=cpu*" pip \
  && micromamba clean --all --yes
 ENV ENV_NAME=sacnn
 ARG MAMBA_DOCKERFILE_ACTIVATE=1
