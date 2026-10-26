@@ -1,0 +1,27 @@
+name: deeprli
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - python=3.10
+  - pip
+  - pip:
+      # Same approach as the egGNN plugin. On Windows the PyPI builds of torch and
+      # dgl are CPU-only. dgl 2.2.1 on PyPI exists only for Windows; on Linux use
+      # the Dockerfile (conda-forge dgl). dgl 2.2.1 needs a torch version it ships
+      # a graphbolt library for (2.1.x, 2.2.x or 2.3.0) and torchdata < 0.10.
+      # The authors used Python 3.11 + torch 2.0.1 + dgl 1.1.2 (CUDA) + rdkit 2023.09.2;
+      # rdkit is kept in the same release series.
+      - torch==2.2.2
+      - dgl==2.2.1
+      - torchdata==0.7.1
+      - rdkit==2023.9.6
+      - numpy==1.26.4
+      - pandas==2.2.3
+      - scipy==1.15.3
+      - networkx==3.4.2
+      - pydantic==2.12.5
+      - pyyaml==6.0.3
+      - psutil==7.0.0
+      - requests
+      - tqdm

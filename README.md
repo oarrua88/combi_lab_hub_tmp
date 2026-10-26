@@ -15,7 +15,9 @@ prediction script and a one-complex test (1a30). All plugins write the same outp
 | 1 – CPU, trained model available | ET-Score, GB-Score, OnionNet-2, SFCNN, PLANET, egGNN, GIGN, EHIGN-PLA, saCNN, DEAttentionDTA, RFL-Score (combi-lab; features via Docker) | 11/11 installed, 1a30 test passes |
 | 2 – extra steps | IGModel, ConBAP, HAC-Net, delta_LinF9_XGB (Linux/Docker), DeepBindGCN, GraphscoreDTA | installed; 1a30 test passes (GraphscoreDTA: only the authors' 279 pre-built complexes, 1a30 not available). CPIScore discarded (incomplete model) |
 | 3 – heavy (GPU, licences, large databases) | PIGNet2, PointNet/PointTransformer and BAPA (all run on CPU; PointNet makes its point clouds only on Linux/Docker); Dynaformer, TopoFormer, CGraphDTA, EGNA, HydraScreen, P3-Score | PIGNet2, PointNet and BAPA: 1a30 test passes. HydraScreen: local inference needs private Ro5 packages, only the API is left. The rest pending |
+| Lista 2 – Transformer models (systematic review, `Apresentação.pdf` slides 22–23) | Level 1: DeepRLI. Level 2: MMPD-DTA (inputs rebuilt from raw files, identical to the authors'), T-ALPHA, DTITR. Level 3 (to verify): DTA-GTOmega, PLiSAGE, TransScore, SST, DBGT-PLA, GITK | DeepRLI (pKd 4.1986), MMPD-DTA (pKd 5.3879) and DTITR (pKd 5.0047; sequence-only, trained on Davis kinases): 1a30 test passes with Windows conda and Docker. T-ALPHA (Linux/Docker only, pykeops): 1a30 test passes on Linux with the authors' pre-computed features (pKd 5.7758) and reproduces the paper's CASF-2016 PCC 0.869; Docker test passes on the lab PC (Windows + Docker Desktop). DeepTGIN, MRBDTA and 12 models without code discarded |
 
+SF from the first survey are **Lista 1**; those from the Transformer review are **Lista 2** (column *Lista* in the sheet).
 The detailed plan and progress are in `docs/CombiLabHUB_etapas.xlsx`.
 
 ## Repository layout

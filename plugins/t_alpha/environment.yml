@@ -1,0 +1,30 @@
+name: talpha
+# Linux / WSL only: pykeops (used by the protein-surface module) compiles C++ kernels at run time
+# and has no official Windows support. On Windows use Docker (INSTALL.md, section B).
+# Same packages as the Dockerfile: CPU PyTorch 2.5.1 + PyG 2.6.1 from conda-forge, the rest as in
+# the authors' requirements.txt (Python 3.11).
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - python=3.11
+  - pytorch=2.5.1=cpu*
+  - libtorch=2.5.1=cpu*
+  - pytorch_cluster
+  - pytorch_geometric=2.6.1
+  - numpy=2.2.0
+  - pandas=2.2.3
+  - scipy=1.14.1
+  - scikit-learn=1.6.0
+  - h5py=3.12.1
+  - matplotlib=3.10.0
+  - gxx_linux-64      # C++ compiler for pykeops
+  - cmake
+  - make
+  - pip
+  - pip:
+      - pytorch-lightning==2.4.0
+      - lightning-utilities==0.11.9
+      - torchmetrics==1.6.0
+      - pykeops==2.2.3
+      - keopscore==2.2.3

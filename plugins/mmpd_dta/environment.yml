@@ -1,0 +1,18 @@
+name: mmpd_dta
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - python=3.10
+  - numpy=1.26.4
+  - networkx=3.4.2
+  # RDKit version matters: with 2023.09.6 the rebuilt 1a30 inputs are bit-identical
+  # to the authors' test2016.pt (the authors' featuriser comes from DeepTGIN, which
+  # pinned rdkit 2023.3.2).
+  - rdkit=2023.09.6
+  - pip
+  - pip:
+      # On Windows the PyPI build of torch is CPU-only. The authors used torch 1.12 +
+      # PyG 2.1 (CUDA 11.6); the state_dict loads unchanged in PyG 2.5.3.
+      - torch==2.2.2
+      - torch_geometric==2.5.3
