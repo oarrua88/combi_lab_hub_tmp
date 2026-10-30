@@ -39,6 +39,7 @@ tools/
 docs/
     CombiLabHUB_etapas.xlsx  project stages and status of every SF
     LISTA_TESTS_PENDIENTES.md  tests still to run on the lab computer (1a30 only) and downloads still missing
+    Avance_CombiLabHUB_2026-10-30.pptx  progress presentation (Spanish), 30/10/2026
 ```
 
 ## Folders used on the lab computer
