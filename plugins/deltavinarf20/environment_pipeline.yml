@@ -1,0 +1,17 @@
+name: deltavinarf20
+# DeltaVinaRF20 - full feature pipeline (Linux; used by the Docker image). The authors' code is Python 2
+# (print statements, pybel of Open Babel 2): Python 2.7 + Open Babel 2.4.1 + pandas, MSMS 2.6.1 for the
+# buried SASA and R + randomForest for the trained model (rffit.rda).
+# MGLTools (environment_mgltools.yml) and vina4dv (compiled in the image) are separate.
+channels:
+  - conda-forge
+  - bioconda
+  - nodefaults
+dependencies:
+  - python=2.7
+  - openbabel=2.4.1
+  - numpy=1.16
+  - pandas=0.24
+  - msms=2.6.1
+  - r-base=4.0.3
+  - r-randomforest=4.6_14

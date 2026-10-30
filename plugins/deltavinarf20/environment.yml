@@ -1,0 +1,12 @@
+name: deltavinarf20_win
+# DeltaVinaRF20 - light environment (Windows / Linux / macOS): R + randomForest to run the authors'
+# trained model (rffit.rda) on a features table, and Python to drive it.
+# The feature pipeline (authors' Python 2 code, Open Babel 2.4.1, MGLTools, vina4dv, MSMS) is Linux only:
+# use the Docker image (Dockerfile, environment_pipeline.yml).
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - python=3.10
+  - r-base=4.3.3
+  - r-randomforest=4.7_1.2

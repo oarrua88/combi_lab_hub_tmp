@@ -5,11 +5,11 @@
 REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 LOGDIR="${LOGDIR:-$REPO/../resultados_docker}"
 mkdir -p "$LOGDIR"
-LIST=("$@"); [ ${#LIST[@]} -eq 0 ] && LIST=(et_score gb_score onionnet2 sfcnn planet eggnn gign ehign_pla sacnn deattentiondta rfl_score igmodel conbap hacnet delta_linf9_xgb deepbindgcn graphscoredta pointnet pignet2 bapa deeprli mmpd_dta dtitr t_alpha)
+LIST=("$@"); [ ${#LIST[@]} -eq 0 ] && LIST=(et_score gb_score onionnet2 sfcnn planet eggnn gign ehign_pla sacnn deattentiondta rfl_score igmodel conbap hacnet delta_linf9_xgb deepbindgcn graphscoredta pointnet pignet2 bapa deeprli mmpd_dta dtitr t_alpha autodock_vina deltavinarf20)
 echo "Summary $(date)" > "$LOGDIR/summary.txt"
 for s in "${LIST[@]}"; do
   echo "===== $s ($(date +%T)) ====="
-  if bash "$REPO/plugins/$s/docker_$s.sh" > "$LOGDIR/$s.log" 2>&1 && grep -q "RESULT: PASS" "$LOGDIR/$s.log"; then
+  if bash "$REPO/plugins/$s/docker_$s.sh" > "$LOGDIR/$s.log" 2>&1 && grep -q "RESULT: PASS" "$LOGDIR/$s.log" && ! grep -q "RESULT: FAIL" "$LOGDIR/$s.log"; then
     echo "  $s: PASS"; echo "$s  PASS" >> "$LOGDIR/summary.txt"
   else
     echo "  $s: FAIL (see $LOGDIR/$s.log)"; echo "$s  FAIL" >> "$LOGDIR/summary.txt"

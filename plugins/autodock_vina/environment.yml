@@ -1,0 +1,11 @@
+name: autodock_vina
+# AutoDock Vina - Windows / Linux environment: Python + Open Babel 3.1.1 (writes the pdbqt files).
+# The Vina program itself is the official binary of release v1.2.5 (vina_1.2.5_win.exe on Windows),
+# downloaded by demo_autodock_vina.bat (see INSTALL.md). The Docker image adds Vina 1.1.2 + MGLTools,
+# the exact protocol of CASF-2016.
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - python=3.10
+  - openbabel=3.1.1

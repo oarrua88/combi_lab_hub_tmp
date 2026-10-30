@@ -1,6 +1,6 @@
 # Lista de tests pendientes en la PC del laboratorio
 
-Actualizada: **26/10/2026**. Solo el test de prueba con **1a30** (no el core set de 285 complejos,
+Actualizada: **30/10/2026**. Solo el test de prueba con **1a30** (no el core set de 285 complejos,
 que queda reservado para el video).
 
 Cada test termina con `RESULT: PASS` o `RESULT: FAIL`. Anotar el resultado en
@@ -20,6 +20,8 @@ Cada test termina con `RESULT: PASS` o `RESULT: FAIL`. Anotar el resultado en
 | 7 | PointNet / PointTransformer | 3 / L1 | **Pendiente** (`demo_pointnet.bat`, solo los modelos) | **Pendiente** | La nube de puntos se arma solo en Linux/Docker |
 | 8 | PIGNet2 | 3 / L1 | **Pendiente** | **Pendiente** | Corre en CPU |
 | 9 | BAPA | 3 / L1 | **Pendiente** | **Pendiente** | |
+| 10 | AutoDock Vina | 1 / L1 | **Pendiente** (`demo_autodock_vina.bat`, Vina 1.2.5) | **Pendiente** | Nuevo 30/10. Docker prueba los dos motores (1.1.2 = protocolo de CASF-2016, y 1.2.5) |
+| 11 | ΔVinaRF20 | 2 / L1 | **Pendiente** (`demo_deltavinarf20.bat`, solo el modelo) | **Pendiente** | Nuevo 30/10. Las features se calculan solo en Docker |
 
 Ya probadas en la PC (no hace falta repetir): ET-Score, GB-Score, OnionNet-2, SFCNN, PLANET,
 egGNN, GIGN, EHIGN-PLA, saCNN, DEAttentionDTA (Windows conda y Docker), delta_LinF9_XGB (Docker),
@@ -33,7 +35,7 @@ DeepRLI, MMPD-DTA, DTITR (Windows conda y Docker) y T-ALPHA (Docker).
 ```bat
 cd C:\Users\Admin\Desktop\PROYECTO_UNIVERSIDAD\combi_lab_hub_tmp
 git pull
-tools\docker_test_all.bat hacnet igmodel conbap deepbindgcn graphscoredta pointnet pignet2 bapa
+tools\docker_test_all.bat hacnet igmodel conbap deepbindgcn graphscoredta pointnet pignet2 bapa autodock_vina deltavinarf20
 ```
 
 **Windows conda, uno por uno** (doble clic en cada `.bat`, o desde una consola):
@@ -47,6 +49,8 @@ plugins\graphscoredta\demo_graphscoredta.bat
 plugins\pointnet\demo_pointnet.bat
 plugins\pignet2\demo_pignet2.bat
 plugins\bapa\demo_bapa.bat
+plugins\autodock_vina\demo_autodock_vina.bat
+plugins\deltavinarf20\demo_deltavinarf20.bat
 ```
 
 Si alguno falla, guardar la ventana o el log y pasármelo.
@@ -64,6 +68,7 @@ Capacidades) o bajar los archivos a mano con el navegador y dejarlos en `SOFTWAR
 | DTA-GTOmega | L2 | `release1.pt` (pesos de OmegaFold, ~3 GB) | helixon.s3.amazonaws.com/release1.pt | helixon.s3.amazonaws.com |
 | DBGT-PLA | L2 | `pdbbind.tgz` (grafos de interacción IChem) | bioinfo-pharma.u-strasbg.fr/labwebsite/downloads/pdbbind.tgz | bioinfo-pharma.u-strasbg.fr |
 | EGNA | L1 | Perfil HHblits (`.hhm`) de la secuencia de 1a30 | Se genera en el servidor web HHblits (toolkit.tuebingen.mpg.de) | — (lo hace una persona en el navegador) |
+| DAAP, LigityScore | L1 | Código y modelos (aún no descargados) | Repositorios en GitLab | gitlab.com |
 
 Cuando estén los archivos, armo el plugin y queda el test 1a30 para agregar a la sección 1.
 

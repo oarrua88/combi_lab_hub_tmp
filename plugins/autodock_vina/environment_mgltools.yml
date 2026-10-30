@@ -1,0 +1,9 @@
+name: mgltools
+# MGLTools 1.5.7 (Python 2.7) for prepare_receptor4.py and prepare_ligand4.py (pdbqt files for Vina 1.1.2, the CASF-2016 protocol). Separate environment because it
+# needs Python 2. Linux only.
+channels:
+  - conda-forge
+  - bioconda
+  - nodefaults
+dependencies:
+  - mgltools=1.5.7
