@@ -18,8 +18,8 @@ Cada test termina con `RESULT: PASS` o `RESULT: FAIL`. Anotar el resultado en
 | 5 | DeepBindGCN | 2 / L1 | **Pendiente** | PASS | |
 | 6 | GraphscoreDTA | 2 / L1 | **Pendiente** | PASS | No puntúa 1a30: el test compara las 279 predicciones de los autores |
 | 7 | PointNet / PointTransformer | 3 / L1 | **Pendiente** (`demo_pointnet.bat`, solo los modelos) | PASS | La nube de puntos se arma solo en Linux/Docker |
-| 8 | PIGNet2 | 3 / L1 | **Pendiente** | **Repetir** (FAIL 11/11: faltaba libGL, Dockerfile corregido) | Corre en CPU |
-| 9 | BAPA | 3 / L1 | **Pendiente** | **Repetir** (FAIL 11/11: timeout de pip, Dockerfile corregido) | |
+| 8 | PIGNet2 | 3 / L1 | **Pendiente** | **Repetir** (FAIL 11/11: faltaba libGL; imagen nueva 1.1) | Corre en CPU |
+| 9 | BAPA | 3 / L1 | **Pendiente** | PASS | |
 | 10 | AutoDock Vina | 1 / L1 | **Pendiente** (`demo_autodock_vina.bat`, Vina 1.2.5) | PASS | Nuevo 30/10. Docker prueba los dos motores (1.1.2 = protocolo de CASF-2016, y 1.2.5) |
 | 11 | ΔVinaRF20 | 2 / L1 | **Pendiente** (`demo_deltavinarf20.bat`, solo el modelo) | PASS | Nuevo 30/10. Las features se calculan solo en Docker |
 
@@ -35,7 +35,7 @@ DeepRLI, MMPD-DTA, DTITR (Windows conda y Docker) y T-ALPHA (Docker).
 ```bat
 cd C:\Users\Admin\Desktop\PROYECTO_UNIVERSIDAD\combi_lab_hub_tmp
 git pull
-tools\docker_test_all.bat pignet2 bapa
+tools\docker_test_all.bat pignet2
 ```
 
 **Windows conda, uno por uno** (doble clic en cada `.bat`, o desde una consola):

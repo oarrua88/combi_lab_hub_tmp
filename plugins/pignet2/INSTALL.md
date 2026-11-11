@@ -146,7 +146,7 @@ Requirements: Docker Desktop with the WSL2 backend, and internet access during t
 
 ```bat
 cd /d C:\Users\Admin\Desktop\PROYECTO_UNIVERSIDAD\combi_lab_hub_tmp\plugins\pignet2
-docker build -t combilab/pignet2:1.0 .
+docker build -t combilab/pignet2:1.1 .
 ```
 
 The build fails on purpose if the MD5 of a checkpoint does not match.
@@ -154,13 +154,13 @@ The build fails on purpose if the MD5 of a checkpoint does not match.
 ### B2. Run the installation test
 
 ```bat
-docker run --rm -v "C:\Users\Admin\Desktop\SOFTWARE SF\CASF-2016\CASF-2016\coreset\1a30:/complex:ro" combilab/pignet2:1.0 python -W ignore /opt/pignet2/test_1a30.py --pignet2-dir /opt/PIGNet2 --complex /complex
+docker run --rm -v "C:\Users\Admin\Desktop\SOFTWARE SF\CASF-2016\CASF-2016\coreset\1a30:/complex:ro" combilab/pignet2:1.1 python -W ignore /opt/pignet2/test_1a30.py --pignet2-dir /opt/PIGNet2 --complex /complex
 ```
 
 ### B3. Score the CASF-2016 core set
 
 ```bat
-docker run --rm -v "C:\Users\Admin\Desktop\SOFTWARE SF\CASF-2016\CASF-2016\coreset:/coreset:ro" -v "C:\Users\Admin\Desktop\PROYECTO_UNIVERSIDAD\sf\results_pignet2:/data" combilab/pignet2:1.0 python -W ignore /opt/pignet2/predict_pignet2.py --pignet2-dir /opt/PIGNet2 -d /coreset -o /data/predictions.csv
+docker run --rm -v "C:\Users\Admin\Desktop\SOFTWARE SF\CASF-2016\CASF-2016\coreset:/coreset:ro" -v "C:\Users\Admin\Desktop\PROYECTO_UNIVERSIDAD\sf\results_pignet2:/data" combilab/pignet2:1.1 python -W ignore /opt/pignet2/predict_pignet2.py --pignet2-dir /opt/PIGNet2 -d /coreset -o /data/predictions.csv
 ```
 
 ---
@@ -181,7 +181,7 @@ docker run --rm -v "C:\Users\Admin\Desktop\SOFTWARE SF\CASF-2016\CASF-2016\cores
 ```bat
 conda env remove -n pignet2
 rmdir /s /q "%SF%\PIGNet2"
-docker rmi combilab/pignet2:1.0
+docker rmi combilab/pignet2:1.1
 ```
 
 The last line is only needed if you used Docker.

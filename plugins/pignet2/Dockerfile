@@ -1,5 +1,5 @@
 # PIGNet2 (Moon et al., Digital Discovery 2024) - inference-only image for CombiLabHUB (CPU)
-# Build (from this folder):   docker build -t combilab/pignet2:1.0 .
+# Build (from this folder):   docker build -t combilab/pignet2:1.1 .
 # See INSTALL.md, section B, for how to run it.
 
 FROM mambaorg/micromamba:1.5.10
