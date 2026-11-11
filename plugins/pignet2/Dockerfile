@@ -5,8 +5,9 @@
 FROM mambaorg/micromamba:1.5.10
 
 USER root
+# libgl1 + libglib2.0-0: PyMOL (used by the authors' protonation step) imports libGL.so.1 even without a display
 RUN apt-get update \
- && apt-get install -y --no-install-recommends git ca-certificates \
+ && apt-get install -y --no-install-recommends git ca-certificates libgl1 libglib2.0-0 \
  && rm -rf /var/lib/apt/lists/*
 USER $MAMBA_USER
 

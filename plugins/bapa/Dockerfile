@@ -21,6 +21,8 @@ RUN git clone "$RF_REPO" /opt/RF-Score \
 USER $MAMBA_USER
 
 # --- Python 3.6 + Open Babel 2.4.1 + TensorFlow 1.12 (CPU), as the authors
+# The old pip of Python 3.6 gives up quickly on a slow PyPI: longer timeout and retries
+ENV PIP_DEFAULT_TIMEOUT=120 PIP_RETRIES=5
 COPY --chown=$MAMBA_USER:$MAMBA_USER environment.yml /tmp/environment.yml
 RUN micromamba create -y -f /tmp/environment.yml \
  && micromamba clean --all --yes
