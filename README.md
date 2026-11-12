@@ -38,6 +38,7 @@ tools/
     run_coreset_level1.bat   scores the CASF-2016 core set with every Level 1 SF
     evaluate_casf.py         PCC, SD, Spearman and RMSE against CoreSet.dat
     docker_test_all.bat/.sh  builds and tests every plugin's Docker image, one by one, with a summary
+    conda_test_all.bat       runs every plugin's Windows conda demo (1a30 test), one by one, with a summary
 docs/
     CombiLabHUB_etapas.xlsx  project stages and status of every SF
     LISTA_TESTS_PENDIENTES.md  tests still to run on the lab computer (1a30 only) and downloads still missing

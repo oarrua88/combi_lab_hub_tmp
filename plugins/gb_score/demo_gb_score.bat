@@ -68,5 +68,7 @@ echo ------------------------------------------------------------
 
 :fin
 echo.
-echo Listo. Presiona una tecla para cerrar esta ventana.
-pause >nul
+if not defined NOPAUSE (
+  echo Listo. Presiona una tecla para cerrar esta ventana.
+  pause >nul
+)
