@@ -41,6 +41,8 @@ echo [Paso 3/4] Codigo de BAPA y red entrenada ^(vienen en el repositorio^)...
 if not exist "%SF%\BAPA\module\network\BAPA_network.meta" (
   echo   Descomprimiendo BAPA.zip...
   tar -xf "%ZIP%" -C "%SF%"
+  rem El tar de Windows a veces no descomprime y no avisa: respaldo con PowerShell.
+  if not exist "%SF%\BAPA-HEAD" powershell -NoProfile -Command "Expand-Archive -LiteralPath '%ZIP%' -DestinationPath '%SF%' -Force"
   if exist "%SF%\BAPA-HEAD" ren "%SF%\BAPA-HEAD" BAPA
 )
 if not exist "%SF%\BAPA\module\network\BAPA_network.meta" ( echo ERROR: no se encontro el codigo en %SF%\BAPA & goto fin )

@@ -40,6 +40,8 @@ echo [Paso 3/4] Codigo de Sfcnn y pesos entrenados ^(vienen en el repositorio^).
 if not exist "%SF%\Sfcnn\predict.py" (
   echo   Descomprimiendo SFCNN.zip...
   tar -xf "%ZIP%" -C "%SF%"
+  rem El tar de Windows a veces no descomprime y no avisa: respaldo con PowerShell.
+  if not exist "%SF%\Sfcnn-HEAD" powershell -NoProfile -Command "Expand-Archive -LiteralPath '%ZIP%' -DestinationPath '%SF%' -Force"
   if exist "%SF%\Sfcnn-HEAD" ren "%SF%\Sfcnn-HEAD" Sfcnn
 )
 if not exist "%SF%\Sfcnn\predict.py" ( echo ERROR: no se encontro el codigo en %SF%\Sfcnn & goto fin )

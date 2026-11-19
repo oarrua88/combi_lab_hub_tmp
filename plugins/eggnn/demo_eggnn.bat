@@ -40,6 +40,8 @@ echo [Paso 3/4] Codigo de egGNN y checkpoint entrenado ^(vienen en el repositori
 if not exist "%SF%\egGNN\run_egGNN.py" (
   echo   Descomprimiendo egGNN.zip...
   tar -xf "%ZIP%" -C "%SF%"
+  rem El tar de Windows a veces no descomprime y no avisa: respaldo con PowerShell.
+  if not exist "%SF%\egGNN-HEAD" powershell -NoProfile -Command "Expand-Archive -LiteralPath '%ZIP%' -DestinationPath '%SF%' -Force"
   if exist "%SF%\egGNN-HEAD" ren "%SF%\egGNN-HEAD" egGNN
 )
 if not exist "%SF%\egGNN\run_egGNN.py" ( echo ERROR: no se encontro el codigo en %SF%\egGNN & goto fin )

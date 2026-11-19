@@ -41,6 +41,8 @@ echo [Paso 3/4] Codigo de EHIGN-PLA y modelos entrenados ^(vienen en el reposito
 if not exist "%SF%\EHIGN_PLA\EHIGN.py" (
   echo   Descomprimiendo EHIGN-PLA.zip...
   tar -xf "%ZIP%" -C "%SF%"
+  rem El tar de Windows a veces no descomprime y no avisa: respaldo con PowerShell.
+  if not exist "%SF%\EHIGN_PLA-HEAD" powershell -NoProfile -Command "Expand-Archive -LiteralPath '%ZIP%' -DestinationPath '%SF%' -Force"
   if exist "%SF%\EHIGN_PLA-HEAD" ren "%SF%\EHIGN_PLA-HEAD" EHIGN_PLA
 )
 if not exist "%SF%\EHIGN_PLA\EHIGN.py" ( echo ERROR: no se encontro el codigo en %SF%\EHIGN_PLA & goto fin )

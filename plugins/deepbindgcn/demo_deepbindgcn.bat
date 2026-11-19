@@ -39,6 +39,8 @@ echo [Paso 3/4] Codigo de DeepBindGCN y modelo entrenado...
 if not exist "%SF%\DeepBindGCN\DeepBindGCN_RG_example\models\gcn.py" (
   echo   Descomprimiendo DeepBindGCN.zip...
   tar -xf "%ZIP%" -C "%SF%"
+  rem El tar de Windows a veces no descomprime y no avisa: respaldo con PowerShell.
+  if not exist "%SF%\DeepBindGCN-HEAD" powershell -NoProfile -Command "Expand-Archive -LiteralPath '%ZIP%' -DestinationPath '%SF%' -Force"
   if exist "%SF%\DeepBindGCN-HEAD" ren "%SF%\DeepBindGCN-HEAD" DeepBindGCN
 )
 if not exist "%SF%\DeepBindGCN\DeepBindGCN_RG_example\models\gcn.py" ( echo ERROR: no se encontro el codigo en %SF%\DeepBindGCN & goto fin )

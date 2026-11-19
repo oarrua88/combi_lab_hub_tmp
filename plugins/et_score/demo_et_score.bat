@@ -39,6 +39,8 @@ echo [Paso 3/4] Codigo de ET-Score y modelo entrenado...
 if not exist "%SF%\ET_Score\predict.py" (
   echo   Descomprimiendo ET-Score.zip...
   tar -xf "%ZIP%" -C "%SF%"
+  rem El tar de Windows a veces no descomprime y no avisa: respaldo con PowerShell.
+  if not exist "%SF%\ET_Score-HEAD" powershell -NoProfile -Command "Expand-Archive -LiteralPath '%ZIP%' -DestinationPath '%SF%' -Force"
   if exist "%SF%\ET_Score-HEAD" ren "%SF%\ET_Score-HEAD" ET_Score
 )
 if not exist "%SF%\ET_Score\predict.py" ( echo ERROR: no se encontro el codigo en %SF%\ET_Score & goto fin )

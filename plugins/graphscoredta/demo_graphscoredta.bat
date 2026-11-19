@@ -40,6 +40,8 @@ echo [Paso 3/4] Codigo de GraphscoreDTA y modelo entrenado...
 if not exist "%SF%\GraphscoreDTA\src\model.py" (
   echo   Descomprimiendo GraphScoreDTA.zip...
   tar -xf "%ZIP%" -C "%SF%"
+  rem El tar de Windows a veces no descomprime y no avisa: respaldo con PowerShell.
+  if not exist "%SF%\GraphscoreDTA-HEAD" powershell -NoProfile -Command "Expand-Archive -LiteralPath '%ZIP%' -DestinationPath '%SF%' -Force"
   if exist "%SF%\GraphscoreDTA-HEAD" ren "%SF%\GraphscoreDTA-HEAD" GraphscoreDTA
 )
 if not exist "%SF%\GraphscoreDTA\src\model.py" ( echo ERROR: no se encontro el codigo en %SF%\GraphscoreDTA & goto fin )

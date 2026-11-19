@@ -40,6 +40,8 @@ echo [Paso 3/4] Codigo de RFL-Score y modelo entrenado...
 if not exist "%SF%\rfl-score_v1\scoring\RScript\model\scoring_function_160.rda" (
   echo   Descomprimiendo RFL-Score.zip...
   tar -xf "%ZIP%" -C "%SF%"
+  rem El tar de Windows a veces no descomprime y no avisa: respaldo con PowerShell.
+  if not exist "%SF%\rfl-score_v1-HEAD" powershell -NoProfile -Command "Expand-Archive -LiteralPath '%ZIP%' -DestinationPath '%SF%' -Force"
   if exist "%SF%\rfl-score_v1-HEAD" ren "%SF%\rfl-score_v1-HEAD" rfl-score_v1
 )
 if not exist "%SF%\rfl-score_v1\scoring\RScript\model\scoring_function_160.rda" ( echo ERROR: no se encontro el codigo en %SF%\rfl-score_v1 & goto fin )

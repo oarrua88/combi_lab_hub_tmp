@@ -41,6 +41,8 @@ echo [Paso 3/4] Codigo y modelos entrenados ^(vienen en el repositorio, ~500 MB^
 if not exist "%SF%\PointNet\pointmodel.py" (
   echo   Descomprimiendo pointnet.zip...
   tar -xf "%ZIP%" -C "%SF%"
+  rem El tar de Windows a veces no descomprime y no avisa: respaldo con PowerShell.
+  if not exist "%SF%\Point-Cloud-HEAD" powershell -NoProfile -Command "Expand-Archive -LiteralPath '%ZIP%' -DestinationPath '%SF%' -Force"
   if exist "%SF%\Point-Cloud-HEAD" ren "%SF%\Point-Cloud-HEAD" PointNet
 )
 if not exist "%SF%\PointNet\pointmodel.py" ( echo ERROR: no se encontro el codigo en %SF%\PointNet & goto fin )
@@ -49,6 +51,10 @@ echo   Verificando MD5 del modelo PointTransformer 0.827 ^(debe ser 0dde813d2d3d
 for %%F in ("%SF%\PointNet\Model\PointTransformer*\0.827.pth") do certutil -hashfile "%%~fF" MD5 | findstr /v "CertUtil"
 
 echo.
+rem torch trae libomp.dll y conda-forge (openbabel) trae libiomp5md.dll: dos runtimes de
+rem OpenMP en el mismo proceso. El test solo corre en CPU los modelos ya entrenados y se
+rem compara con la referencia, asi que se permite la convivencia (en Docker no hace falta).
+set "KMP_DUPLICATE_LIB_OK=TRUE"
 echo [Paso 4/4] Test con el complejo 1a30 ^(proteasa HIV-1^)...
 echo ------------------------------------------------------------
 python -W ignore "%PLUGIN%\test_1a30.py" --pointnet-dir "%SF%\PointNet" --complex "%CASF%\coreset\1a30"

@@ -39,6 +39,8 @@ echo [Paso 3/4] Codigo de DEAttentionDTA y los 10 modelos entrenados ^(vienen en
 if not exist "%SF%\DEAttentionDTA\src\bestmodel.py" (
   echo   Descomprimiendo DEAttentionDTA.zip...
   tar -xf "%ZIP%" -C "%SF%"
+  rem El tar de Windows a veces no descomprime y no avisa: respaldo con PowerShell.
+  if not exist "%SF%\DEAttentionDTA-HEAD" powershell -NoProfile -Command "Expand-Archive -LiteralPath '%ZIP%' -DestinationPath '%SF%' -Force"
   if exist "%SF%\DEAttentionDTA-HEAD" ren "%SF%\DEAttentionDTA-HEAD" DEAttentionDTA
 )
 if not exist "%SF%\DEAttentionDTA\src\bestmodel.py" ( echo ERROR: no se encontro el codigo en %SF%\DEAttentionDTA & goto fin )

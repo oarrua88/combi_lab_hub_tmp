@@ -39,6 +39,8 @@ echo [Paso 3/4] Codigo de PIGNet2 y modelos entrenados ^(vienen en el repositori
 if not exist "%SF%\PIGNet2\src\ckpt\pda_0.pt" (
   echo   Descomprimiendo PIGNet2.zip...
   tar -xf "%ZIP%" -C "%SF%"
+  rem El tar de Windows a veces no descomprime y no avisa: respaldo con PowerShell.
+  if not exist "%SF%\PIGNet2-HEAD" powershell -NoProfile -Command "Expand-Archive -LiteralPath '%ZIP%' -DestinationPath '%SF%' -Force"
   if exist "%SF%\PIGNet2-HEAD" ren "%SF%\PIGNet2-HEAD" PIGNet2
 )
 if not exist "%SF%\PIGNet2\src\ckpt\pda_0.pt" ( echo ERROR: no se encontro el codigo en %SF%\PIGNet2 & goto fin )

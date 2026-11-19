@@ -41,6 +41,8 @@ echo [Paso 3/4] Codigo de OnionNet-2 y modelo entrenado...
 if not exist "%SF%\OnionNet-2\scoring\predict.py" (
   echo   Descomprimiendo OnionNet-2.zip...
   tar -xf "%ZIP%" -C "%SF%"
+  rem El tar de Windows a veces no descomprime y no avisa: respaldo con PowerShell.
+  if not exist "%SF%\OnionNet-2-HEAD" powershell -NoProfile -Command "Expand-Archive -LiteralPath '%ZIP%' -DestinationPath '%SF%' -Force"
   if exist "%SF%\OnionNet-2-HEAD" ren "%SF%\OnionNet-2-HEAD" OnionNet-2
 )
 if not exist "%SF%\OnionNet-2\scoring\predict.py" ( echo ERROR: no se encontro el codigo en %SF%\OnionNet-2 & goto fin )

@@ -39,6 +39,8 @@ echo [Paso 3/4] Codigo de PLANET, parametros entrenados y core set preparado ^(v
 if not exist "%SF%\PLANET\PLANET_run.py" (
   echo   Descomprimiendo PLANET.zip...
   tar -xf "%ZIP%" -C "%SF%"
+  rem El tar de Windows a veces no descomprime y no avisa: respaldo con PowerShell.
+  if not exist "%SF%\PLANET-HEAD" powershell -NoProfile -Command "Expand-Archive -LiteralPath '%ZIP%' -DestinationPath '%SF%' -Force"
   if exist "%SF%\PLANET-HEAD" ren "%SF%\PLANET-HEAD" PLANET
 )
 if not exist "%SF%\PLANET\PLANET_run.py" ( echo ERROR: no se encontro el codigo en %SF%\PLANET & goto fin )

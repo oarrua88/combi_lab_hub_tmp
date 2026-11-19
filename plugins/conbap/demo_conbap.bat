@@ -44,6 +44,8 @@ echo [Paso 3/4] Codigo de ConBAP y modelo entrenado...
 if not exist "%SF%\ConBAP\supervised\ConBAP.py" (
   echo   Descomprimiendo ConBAP.zip...
   tar -xf "%ZIP%" -C "%SF%"
+  rem El tar de Windows a veces no descomprime y no avisa: respaldo con PowerShell.
+  if not exist "%SF%\ConBAP-HEAD" powershell -NoProfile -Command "Expand-Archive -LiteralPath '%ZIP%' -DestinationPath '%SF%' -Force"
   if exist "%SF%\ConBAP-HEAD" ren "%SF%\ConBAP-HEAD" ConBAP
 )
 if not exist "%SF%\ConBAP\supervised\ConBAP.py" ( echo ERROR: no se encontro el codigo en %SF%\ConBAP & goto fin )

@@ -39,6 +39,8 @@ echo [Paso 3/4] Codigo de HAC-Net y modelo entrenado...
 if not exist "%SF%\HAC-Net\HACNet\parameter_files\CNN_parameters.pt" (
   echo   Descomprimiendo HAC-Net.zip...
   tar -xf "%ZIP%" -C "%SF%"
+  rem El tar de Windows a veces no descomprime y no avisa: respaldo con PowerShell.
+  if not exist "%SF%\HAC-Net-HEAD" powershell -NoProfile -Command "Expand-Archive -LiteralPath '%ZIP%' -DestinationPath '%SF%' -Force"
   if exist "%SF%\HAC-Net-HEAD" ren "%SF%\HAC-Net-HEAD" HAC-Net
 )
 if not exist "%SF%\HAC-Net\HACNet\parameter_files\CNN_parameters.pt" ( echo ERROR: no se encontro el codigo en %SF%\HAC-Net & goto fin )

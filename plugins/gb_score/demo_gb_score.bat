@@ -40,6 +40,8 @@ echo [Paso 3/4] Codigo de GB-Score y modelo entrenado...
 if not exist "%SF%\GB_Score\generate_features.py" (
   echo   Descomprimiendo GB-Score.zip...
   tar -xf "%ZIP%" -C "%SF%"
+  rem El tar de Windows a veces no descomprime y no avisa: respaldo con PowerShell.
+  if not exist "%SF%\GB_Score-HEAD" powershell -NoProfile -Command "Expand-Archive -LiteralPath '%ZIP%' -DestinationPath '%SF%' -Force"
   if exist "%SF%\GB_Score-HEAD" ren "%SF%\GB_Score-HEAD" GB_Score
 )
 if not exist "%SF%\GB_Score\generate_features.py" ( echo ERROR: no se encontro el codigo en %SF%\GB_Score & goto fin )

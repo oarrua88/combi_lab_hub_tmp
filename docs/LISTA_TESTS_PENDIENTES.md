@@ -1,6 +1,7 @@
 # Lista de tests pendientes en la PC del laboratorio
 
-Actualizada: **12/11/2026**. Docker: todas PASS; faltan los tests de Windows conda. Solo el test de prueba con **1a30** (no el core set de 285 complejos,
+Actualizada: **18/11/2026**. Docker: todas PASS. En Windows conda pasaron 5 de 10; las otras 5 quedan para
+volver a correr (ver la nota de cada una). Solo el test de prueba con **1a30** (no el core set de 285 complejos,
 que queda reservado para el video).
 
 Cada test termina con `RESULT: PASS` o `RESULT: FAIL`. Anotar el resultado en
@@ -11,17 +12,17 @@ Cada test termina con `RESULT: PASS` o `RESULT: FAIL`. Anotar el resultado en
 
 | # | SF | Nivel / Lista | Windows conda (`plugins\<sf>\demo_<sf>.bat`) | Docker (`plugins\<sf>\docker_<sf>.bat`) | Nota |
 |---|---|---|---|---|---|
-| 1 | RFL-Score | 1 / L1 | **Pendiente** (`demo_rfl_score.bat`, solo el modelo R) | PASS | |
+| 1 | RFL-Score | 1 / L1 | PASS (solo el modelo R) | PASS | |
 | 2 | HAC-Net | 2 / L1 | PASS | PASS | Usa ChargeFW2 dentro de la imagen |
-| 3 | IGModel | 2 / L1 | **Pendiente** | PASS | |
-| 4 | ConBAP | 2 / L1 | **Pendiente** | PASS | |
-| 5 | DeepBindGCN | 2 / L1 | **Pendiente** | PASS | |
-| 6 | GraphscoreDTA | 2 / L1 | **Pendiente** | PASS | No puntúa 1a30: el test compara las 279 predicciones de los autores |
-| 7 | PointNet / PointTransformer | 3 / L1 | **Pendiente** (`demo_pointnet.bat`, solo los modelos) | PASS | La nube de puntos se arma solo en Linux/Docker |
-| 8 | PIGNet2 | 3 / L1 | **Pendiente** | PASS (imagen 1.1) | Corre en CPU |
-| 9 | BAPA | 3 / L1 | **Pendiente** | PASS | |
-| 10 | AutoDock Vina | 1 / L1 | **Pendiente** (`demo_autodock_vina.bat`, Vina 1.2.5) | PASS | Nuevo 30/10. Docker prueba los dos motores (1.1.2 = protocolo de CASF-2016, y 1.2.5) |
-| 11 | ΔVinaRF20 | 2 / L1 | **Pendiente** (`demo_deltavinarf20.bat`, solo el modelo) | PASS | Nuevo 30/10. Las features se calculan solo en Docker |
+| 3 | IGModel | 2 / L1 | PASS | PASS | |
+| 4 | ConBAP | 2 / L1 | PASS | PASS | |
+| 5 | DeepBindGCN | 2 / L1 | **Volver a correr** | PASS | 18/11: el `tar` de Windows no descomprimio el zip; ya esta la carpeta en `sf\` |
+| 6 | GraphscoreDTA | 2 / L1 | **Volver a correr** | PASS | No puntúa 1a30: el test compara las 279 predicciones de los autores. 18/11: mismo problema del `tar` |
+| 7 | PointNet / PointTransformer | 3 / L1 | **Volver a correr** (solo los modelos) | PASS | La nube de puntos se arma solo en Linux/Docker. 18/11: OMP Error #15 (dos runtimes de OpenMP); el demo ahora define `KMP_DUPLICATE_LIB_OK` |
+| 8 | PIGNet2 | 3 / L1 | **Volver a correr** | PASS (imagen 1.1) | Corre en CPU. 18/11: mismo problema del `tar` |
+| 9 | BAPA | 3 / L1 | **Volver a correr** | PASS | 18/11: mismo problema del `tar` |
+| 10 | AutoDock Vina | 1 / L1 | PASS (Vina 1.2.5) | PASS | Nuevo 30/10. Docker prueba los dos motores (1.1.2 = protocolo de CASF-2016, y 1.2.5) |
+| 11 | ΔVinaRF20 | 2 / L1 | PASS (solo el modelo) | PASS | Nuevo 30/10. Las features se calculan solo en Docker |
 
 Ya probadas en la PC (no hace falta repetir): ET-Score, GB-Score, OnionNet-2, SFCNN, PLANET,
 egGNN, GIGN, EHIGN-PLA, saCNN, DEAttentionDTA (Windows conda y Docker), delta_LinF9_XGB (Docker),
@@ -42,7 +43,7 @@ tools\docker_test_all.bat
 
 ```bat
 cd C:\Users\Admin\Desktop\PROYECTO_UNIVERSIDAD\combi_lab_hub_tmp
-tools\conda_test_all.bat rfl_score igmodel conbap deepbindgcn graphscoredta pointnet pignet2 bapa autodock_vina deltavinarf20
+tools\conda_test_all.bat deepbindgcn graphscoredta pointnet pignet2 bapa
 ```
 
 También se puede correr cada `plugins\<sf>\demo_<sf>.bat` con doble clic, como antes.

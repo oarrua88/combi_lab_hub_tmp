@@ -39,6 +39,8 @@ echo [Paso 3/4] Codigo de saCNN y modelo entrenado ^(vienen en el repositorio^).
 if not exist "%SF%\saCNN\src\model.py" (
   echo   Descomprimiendo saCNN.zip...
   tar -xf "%ZIP%" -C "%SF%"
+  rem El tar de Windows a veces no descomprime y no avisa: respaldo con PowerShell.
+  if not exist "%SF%\saCNN-HEAD" powershell -NoProfile -Command "Expand-Archive -LiteralPath '%ZIP%' -DestinationPath '%SF%' -Force"
   if exist "%SF%\saCNN-HEAD" ren "%SF%\saCNN-HEAD" saCNN
 )
 if not exist "%SF%\saCNN\src\model.py" ( echo ERROR: no se encontro el codigo en %SF%\saCNN & goto fin )

@@ -41,6 +41,8 @@ echo [Paso 3/4] Codigo de GIGN y modelos entrenados ^(vienen en el repositorio^)
 if not exist "%SF%\GIGN\GIGN\GIGN.py" (
   echo   Descomprimiendo GIGN.zip...
   tar -xf "%ZIP%" -C "%SF%"
+  rem El tar de Windows a veces no descomprime y no avisa: respaldo con PowerShell.
+  if not exist "%SF%\GIGN-HEAD" powershell -NoProfile -Command "Expand-Archive -LiteralPath '%ZIP%' -DestinationPath '%SF%' -Force"
   if exist "%SF%\GIGN-HEAD" ren "%SF%\GIGN-HEAD" GIGN
 )
 if not exist "%SF%\GIGN\GIGN\GIGN.py" ( echo ERROR: no se encontro el codigo en %SF%\GIGN & goto fin )
