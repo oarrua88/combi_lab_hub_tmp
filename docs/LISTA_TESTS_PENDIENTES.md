@@ -1,14 +1,14 @@
 # Lista de tests pendientes en la PC del laboratorio
 
-Actualizada: **18/11/2026**. Docker: todas PASS. En Windows conda pasaron 5 de 10; las otras 5 quedan para
-volver a correr (ver la nota de cada una). Solo el test de prueba con **1a30** (no el core set de 285 complejos,
-que queda reservado para el video).
+Actualizada: **18/11/2026**. **Las 11 SF de esta tanda pasan el test con 1a30, en Docker y en Windows conda.**
+No queda ningun test pendiente aqui: lo que sigue es la seccion 2 (SF que esperan una descarga). Solo el test de
+prueba con **1a30** (no el core set de 285 complejos, que queda reservado para el video).
 
 Cada test termina con `RESULT: PASS` o `RESULT: FAIL`. Anotar el resultado en
 `docs/CombiLabHUB_etapas.xlsx`, hoja **Estado SF**, columnas *Test Docker 1a30* (Q) y
 *Test Windows conda 1a30* (R).
 
-## 1. Tests listos para correr (plugins ya terminados)
+## 1. Tests hechos (plugins terminados)
 
 | # | SF | Nivel / Lista | Windows conda (`plugins\<sf>\demo_<sf>.bat`) | Docker (`plugins\<sf>\docker_<sf>.bat`) | Nota |
 |---|---|---|---|---|---|
@@ -16,11 +16,11 @@ Cada test termina con `RESULT: PASS` o `RESULT: FAIL`. Anotar el resultado en
 | 2 | HAC-Net | 2 / L1 | PASS | PASS | Usa ChargeFW2 dentro de la imagen |
 | 3 | IGModel | 2 / L1 | PASS | PASS | |
 | 4 | ConBAP | 2 / L1 | PASS | PASS | |
-| 5 | DeepBindGCN | 2 / L1 | **Volver a correr** | PASS | 18/11: el `tar` de Windows no descomprimio el zip; ya esta la carpeta en `sf\` |
-| 6 | GraphscoreDTA | 2 / L1 | **Volver a correr** | PASS | No puntúa 1a30: el test compara las 279 predicciones de los autores. 18/11: mismo problema del `tar` |
-| 7 | PointNet / PointTransformer | 3 / L1 | **Volver a correr** (solo los modelos) | PASS | La nube de puntos se arma solo en Linux/Docker. 18/11: OMP Error #15 (dos runtimes de OpenMP); el demo ahora define `KMP_DUPLICATE_LIB_OK` |
-| 8 | PIGNet2 | 3 / L1 | **Volver a correr** | PASS (imagen 1.1) | Corre en CPU. 18/11: mismo problema del `tar` |
-| 9 | BAPA | 3 / L1 | **Volver a correr** | PASS | 18/11: mismo problema del `tar` |
+| 5 | DeepBindGCN | 2 / L1 | PASS | PASS | 18/11: el `tar` de Windows no descomprimio el zip; el demo ahora usa Expand-Archive como respaldo |
+| 6 | GraphscoreDTA | 2 / L1 | PASS | PASS | No puntúa 1a30: el test compara las 279 predicciones de los autores. 18/11: mismo problema del `tar` |
+| 7 | PointNet / PointTransformer | 3 / L1 | PASS (solo los modelos) | PASS | La nube de puntos se arma solo en Linux/Docker. 18/11: fallaba con OMP Error #15 (dos runtimes de OpenMP); el demo ahora define `KMP_DUPLICATE_LIB_OK` |
+| 8 | PIGNet2 | 3 / L1 | PASS | PASS (imagen 1.1) | Corre en CPU. 18/11: ademas del `tar`, `extract_binding_pocket()` de los autores reabre un `NamedTemporaryFile` por nombre, cosa que falla en Windows; el adaptador usa un temporal cerrado antes de escribirlo |
+| 9 | BAPA | 3 / L1 | PASS | PASS | 18/11: mismo problema del `tar` |
 | 10 | AutoDock Vina | 1 / L1 | PASS (Vina 1.2.5) | PASS | Nuevo 30/10. Docker prueba los dos motores (1.1.2 = protocolo de CASF-2016, y 1.2.5) |
 | 11 | ΔVinaRF20 | 2 / L1 | PASS (solo el modelo) | PASS | Nuevo 30/10. Las features se calculan solo en Docker |
 
@@ -39,11 +39,11 @@ git pull
 tools\docker_test_all.bat
 ```
 
-**Windows conda, todos los pendientes de una vez** (cada log queda en `PROYECTO_UNIVERSIDAD\resultados_conda\`, y el resumen en `resumen.txt`; la primera vez crea cada entorno, tarda):
+**Windows conda, todas de una vez** (cada log queda en `PROYECTO_UNIVERSIDAD\resultados_conda\`, y el resumen en `resumen.txt`; la primera vez crea cada entorno, tarda). Sin argumentos corre todas; con nombres de carpeta de `plugins\`, solo esas:
 
 ```bat
 cd C:\Users\Admin\Desktop\PROYECTO_UNIVERSIDAD\combi_lab_hub_tmp
-tools\conda_test_all.bat deepbindgcn graphscoredta pointnet pignet2 bapa
+tools\conda_test_all.bat
 ```
 
 También se puede correr cada `plugins\<sf>\demo_<sf>.bat` con doble clic, como antes.

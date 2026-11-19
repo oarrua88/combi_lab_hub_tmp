@@ -88,10 +88,36 @@ def read_ligand(ligand_mol2, protonate=False):
     return mol
 
 
+def _extract_binding_pocket(ligand, protein_path, distance=5.0):
+    """The authors' pocket extraction, with a temporary file that also works on Windows.
+
+    generate_data.extract_binding_pocket() writes the ligand into a
+    NamedTemporaryFile and then reopens it by name with Chem.SDWriter. On
+    Windows that second open fails ("Bad output file") because the file is
+    still held open by the first one, so there the same two steps are done with
+    a temporary file that is closed before being written. The ligand written
+    and the authors' extract() that is called are the same on both systems.
+    """
+    from generate_data import extract, extract_binding_pocket
+    if os.name != "nt":
+        return extract_binding_pocket(ligand, protein_path, distance=distance)
+    from rdkit import Chem
+    fd, sdf_path = tempfile.mkstemp(suffix=".sdf")
+    os.close(fd)
+    try:
+        writer = Chem.SDWriter(sdf_path)
+        try:
+            writer.write(ligand)
+        finally:
+            writer.close()
+        return extract(protein_path, sdf_path, distance=distance)
+    finally:
+        os.unlink(sdf_path)
+
+
 def prepare(protein_pdb, ligand_mol2, protonate_ligand=False, protonate_protein=False):
     """(ligand, pocket) RDKit molecules, with the authors' pocket extraction."""
     from pathlib import Path
-    from generate_data import extract_binding_pocket
     ligand = read_ligand(ligand_mol2, protonate_ligand)
     protein = Path(protein_pdb)
     tmp_protein = None
@@ -102,7 +128,7 @@ def prepare(protein_pdb, ligand_mol2, protonate_ligand=False, protonate_protein=
         tmp_protein = protonate_pdb(protein)
         protein = tmp_protein
     try:
-        pocket = extract_binding_pocket(ligand, str(protein))
+        pocket = _extract_binding_pocket(ligand, str(protein))
     finally:
         if tmp_protein is not None:
             tmp_protein.unlink()
